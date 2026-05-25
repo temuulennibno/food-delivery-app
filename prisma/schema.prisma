@@ -12,17 +12,19 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id    String @id @default(nanoid())
-  name  String
-  todos Todo[]
+enum UserRole {
+  USER
+  ADMIN
 }
 
-model Todo {
-  id        String   @id @default(nanoid())
-  title     String
-  checked   Boolean  @default(false)
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  userId    String
+model User {
+  id          String   @id @default(nanoid())
+  email       String   @unique
+  phoneNumber String?
+  address     String?
+  otp         String?
+  otpTries    Int      @default(0)
+  role        UserRole @default(USER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
