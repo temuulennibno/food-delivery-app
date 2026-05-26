@@ -32,8 +32,11 @@ export const UserProvider = () => {
   const { accessToken, setUser, setAccessToken, setLoading } = useUserStore();
   useEffect(() => {
     if (window) {
-      setAccessToken(localStorage.getItem("accessToken") || "");
-      setLoading(false);
+      if (localStorage.getItem("accessToken")) {
+        setAccessToken(localStorage.getItem("accessToken") || "");
+      } else {
+        setLoading(false);
+      }
     }
   }, []);
 
@@ -51,6 +54,7 @@ export const UserProvider = () => {
           localStorage.setItem("accessToken", accessToken);
         })
         .catch(({ response }) => {
+          localStorage.removeItem("accessToken");
           alert(response.data.message);
           setUser(null);
           setAccessToken("");
