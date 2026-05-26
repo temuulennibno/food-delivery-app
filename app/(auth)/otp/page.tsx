@@ -1,24 +1,20 @@
 "use client";
-import { AuthHeader } from "../../components/auth-layout";
-import { SubmitButton, TextField } from "../../components/auth-form";
+import { AuthHeader } from "../../../components/auth-layout";
+import { SubmitButton, TextField } from "../../../components/auth-form";
 import { useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-
   const handleSubmitForm = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setLoading(true);
     axios
       .post("/api/auth", { email })
       .then((res) => {
-        setLoading(false);
         alert(res.data.message);
-        router.push(`/login/otp?email=${email}`);
+        setLoading(false);
       })
       .catch(({ response }) => {
         alert(response.message);

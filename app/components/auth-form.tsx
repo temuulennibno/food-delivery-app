@@ -8,6 +8,9 @@ export function TextField({
   type = "text",
   placeholder,
   autoComplete,
+  value,
+  onChange,
+  readOnly,
   required,
 }: {
   id: string;
@@ -15,6 +18,9 @@ export function TextField({
   type?: string;
   placeholder?: string;
   autoComplete?: string;
+  value: string;
+  onChange?: ({ target }: { target: { value: string } }) => void;
+  readOnly?: boolean;
   required?: boolean;
 }) {
   return (
@@ -23,6 +29,9 @@ export function TextField({
         {label}
       </label>
       <input
+        value={value}
+        onChange={onChange}
+        readOnly={readOnly}
         id={id}
         name={id}
         type={type}
@@ -35,17 +44,7 @@ export function TextField({
   );
 }
 
-export function PasswordField({
-  id,
-  label,
-  placeholder,
-  autoComplete,
-}: {
-  id: string;
-  label: string;
-  placeholder?: string;
-  autoComplete?: string;
-}) {
+export function PasswordField({ id, label, placeholder, autoComplete }: { id: string; label: string; placeholder?: string; autoComplete?: string }) {
   const [visible, setVisible] = useState(false);
   return (
     <div className="flex flex-col gap-2">
@@ -97,13 +96,18 @@ export function ShowPasswordCheckbox({
   );
 }
 
-export function SubmitButton({
-  children,
-  disabled,
-}: {
-  children: React.ReactNode;
-  disabled?: boolean;
-}) {
+export function SubmitButton({ children, disabled, loading }: { children: React.ReactNode; disabled?: boolean; loading?: boolean }) {
+  if (loading) {
+    return (
+      <button
+        type="button"
+        disabled={true}
+        className="flex h-9 w-full items-center justify-center rounded-md bg-primary px-8 text-sm font-medium leading-5 text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-20"
+      >
+        Loading...
+      </button>
+    );
+  }
   return (
     <button
       type="submit"
@@ -118,12 +122,7 @@ export function SubmitButton({
 function Eye() {
   return (
     <svg viewBox="0 0 16 16" fill="none" className="size-4" aria-hidden="true">
-      <path
-        d="M1.5 8s2.5-4.5 6.5-4.5S14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8Z"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        strokeLinejoin="round"
-      />
+      <path d="M1.5 8s2.5-4.5 6.5-4.5S14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
       <circle cx="8" cy="8" r="2" stroke="currentColor" strokeWidth="1.2" />
     </svg>
   );
