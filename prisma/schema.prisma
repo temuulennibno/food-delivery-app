@@ -43,6 +43,7 @@ model Food {
   category       FoodCategory @relation(fields: [foodCategoryId], references: [id])
   ingredients    String
   image          String
+  price          Float        @default(0)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   foodCategoryId String
